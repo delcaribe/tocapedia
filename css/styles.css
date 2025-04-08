@@ -1,0 +1,131 @@
+:root {
+  --azulclaro:#0fa7e6;
+}
+
+@font-face {
+  font-family: "ltrenovate";
+  font-style: bold;
+  font-weight: bold;
+  font-display: block;
+  src: url("../fonts/LTRenovate-Bold.otf") format("OpenType");
+}
+@font-face {
+  font-family: "ltrenovate";
+  font-style: normal;
+  font-weight: normal;
+  font-display: block;
+  src: url("../fonts/LTRenovate-Regular.otf") format("OpenType");
+}
+body {
+  font-weight: normal;
+  color: #c6c6c6;
+  font-size: 0.9rem;
+}
+
+#logoAndSubject {
+  width: 450px;
+  height: auto;
+}
+
+#subjectTitle {
+  color: #ffffff;
+  fill: #ffffff;
+  font-family: "ltrenovate", sans-serif;
+  text-anchor: "start";
+  font-size: 21px;
+  dominant-baseline: auto;
+}
+
+#containerLogo {
+  background-image: url("data:image/svg+xml;charset=UTF-8,<svg width='25' height='25' version='1.1' viewBox='0 0 25 25' xmlns='http://www.w3.org/2000/svg'><rect x='0' y='0' width='12.5' height='12.5' ry='0' fill='%232fb8f1'/><rect x='12.5' y='0' width='12.5' height='12.5' ry='0' fill='%2350c3f3'/><rect x='12.5' y='12.5' width='12.5' height='12.5' ry='0' fill='%232fb8f1'/></svg>");
+  background-repeat: no-repeat;
+  background-position: top right;
+  background-size: 25px 25px;
+}
+
+#elMenu {
+  font-size: 0.9rem;
+}
+
+#contenido {
+  background-color: #00112b;
+  min-height: 400px;
+}
+
+.minAncho {
+  min-width: 500px;
+}
+
+.maxAncho {
+  max-width: 992px;
+}
+
+.formula {
+  color: #ff7c24;
+}
+
+.concepto {
+  color: #bf9240;
+  cursor: pointer;
+}
+
+.concepto:hover {
+  color: #dec16c;
+}
+
+.act_fondo {
+  fill: #032f50;
+}
+
+.act_cuadro {
+  fill: #022549;
+}
+
+.act_azulclaro {
+  fill: var(--azulclaro);
+}
+
+.act_reload {
+  background-image: url("data:image/svg+xml;charset=UTF-8,<svg version='1.1' viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'><rect width='30' height='30' fill='%230fa7e6'/><path transform='translate(-101 -145)' d='m116 150c-2.48 0-4.96 0.931-6.85 2.79l-2.12-2.12v7.58h7.58l-2.2-2.2c2.04-1.98 5.23-1.96 7.25 0.0599 2.04 2.04 2.04 5.27 0 7.31s-5.28 2.04-7.32 0l-3.25 3.26c3.8 3.8 10 3.8 13.8 0s3.8-10 0-13.8c-1.9-1.9-4.41-2.85-6.91-2.85z' fill='white'/></svg>");
+  background-repeat: no-repeat;
+  background-size: 30px 30px;
+}
+
+.cu_pointer {
+  cursor: pointer;
+}
+
+.header {
+  background: url("../images/fondo.png");
+}
+
+.header .slide {
+  width: 70%;
+  margin: 0 auto;
+}
+
+.navbar {
+  transition: all 0.3s ease-in-out;
+  padding-top: 0.3rem;
+  padding-bottom: 0.3rem;
+  background-color: #096e9f;
+}
+
+.navbarConfondo {
+  background-color: #fae2c8;
+}
+
+@media only screen and (max-width: 768px) {
+  #logoAndSubject {
+    max-width: 320px;
+  }
+  #containerLogo {
+    background-size: 20px 20px;
+  }
+  #elMenu {
+    font-size: 0.8rem;
+  }
+  body {
+    font-size: 0.8rem;
+  }
+}
