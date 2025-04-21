@@ -11,7 +11,6 @@ const content_EN = {
     menu:["Density","Pressure","Pascal's Law","Hydraulic press","Archimedes"],
     density:{
         info1:en_info1,
-        // info1:'hhhh hghg h ',
         modal1:{title:'Intrinsic',info:'Something that is inherent or essential to the nature of a thing, coming from within, and not dependent on external factors.<br>The word "intrinsic" comes from the Latin word "intrinsecus," meaning "situated on the inside".'},
         activity1:{
             text1:[
@@ -120,9 +119,9 @@ const content_EN = {
             text1:[
                 'These balls are made of steel.',
                 '- The small one is solid,',
-                'its density is 7.85 g/cm3.',
+                'its density is 7.85 g/cm<tspan class="act_exponente">3</tspan>.',
                 '- The large one is hollow,',
-                'its density is 1.2 g/cm3.',
+                'its density is 1.2 g/cm<tspan class="act_exponente">3</tspan>.',
                 'Drop the balls',
                 '',
             ],
@@ -163,8 +162,6 @@ const content_EN = {
                 'Is the crown made of pure gold?',
                 'Archimedes helped the King determine the purity of his new crown',
                 'And he did it based on the principle of buoyancy.',
-                // 'This has not been verified if it actually happened; it\'s more of a scientific tale.',
-                // 'There\'s no historical evidence that it actually happened. Consider it more of a scientific tale.',
                 'This anecdote probably didn\'t happen. Consider it more of a scientific tale.',
             
                 'On the balance scale, we have the crown and a gold\'s sample with the same mass.',

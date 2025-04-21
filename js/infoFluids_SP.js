@@ -120,9 +120,9 @@ const content_SP = {
             text1:[
                 'Estas esferas son de acero ',
                 '- La pequeña es maciza',
-                'su densidad es 7.85 gr /cm3',
+                'su densidad es 7.85 g/cm<tspan class="act_exponente">3</tspan>',
                 '- La grande es hueca ',
-                'su densidad es 1.2 gr /cm3',
+                'su densidad es 1.2 g/cm<tspan class="act_exponente">3</tspan>',
                 'Déjalas caer',
                 '',
             ],
@@ -163,8 +163,6 @@ const content_SP = {
                 '¿Será de oro puro la corona?',
                 'Arquímedes ayudó al Rey a determinar la pureza de su nueva corona.',
                 'Y lo hizo basándose en el principio de flotación.',
-                // 'No hay pruebas históricas de que realmente ocurrió. Consíderalo más bien un cuento científico',
-                // 'No sabemos si realmente ocurrió esta anécdota. Consíderalo más bien un cuento científico',
                 'Esta anécdota tal vez no ocurrió. Consíderala más bien un cuento científico.',
 
                 'En la balanza tenemos la corona y una muestra de oro con la misma masa.',
