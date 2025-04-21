@@ -1,10 +1,8 @@
 const corrSistemaB = 2
 var hydraulic1 = {
     reloadButton:document.getElementById('fluids_4_hydraulicPress_1_reload'),
-    // status:0,
     habilitado:[true,false],
     pesas:[[],[]],
-    // whiteWall:SVG('#pressure_1_paredBlanca'),
     text2:document.getElementById('hydraulicPress_1_text2'),
     text3:document.getElementById('hydraulicPress_1_text3'),
     massLimits:[{x:10,x2:218,y:0,y2:289},{x:410,x2:626,y:0,y2:289}],
@@ -21,7 +19,6 @@ var hydraulic1 = {
                 ],
                 pseudo:document.getElementById('hydraulicPress1_0_pseudoJeringa')
             },
-            // derecho:{min:131.8,max:170,sprite:SVG('#hydraulicPress1_0_emboloB')},
             B:{min:89,max:129,sprite:SVG('#hydraulicPress1_0_masaEmboloB')},
         },
         {
@@ -42,38 +39,27 @@ var hydraulic1 = {
 
 function siguienteEtapa(grupo){
     hydraulic1.habilitado[grupo] = false
-    //tiempo:{masa:400,embolos:1000,delay0:2000,fade1:1000},
     let tiempoPrevio = hydraulic1.tiempo.masa + hydraulic1.tiempo.embolos + hydraulic1.tiempo.delay0
     if(grupo == 0){
         hydraulic1.habilitado[1] = true
-        //mostrar elementos de sistema 1
         for(let i=0;i<6;i++){
             cambiarMasa(hydraulic1.pesas[1][i].dom,0)
         }
         hydraulic1.parcheDOM[0].classList.remove("d-none")
         hydraulic1.parcheSprite[0].animate(hydraulic1.tiempo.fade1,tiempoPrevio,'now').attr('opacity',0.25)
         hydraulic1.parcheSprite[1].animate(hydraulic1.tiempo.fade1,tiempoPrevio,'now').attr('opacity',0)
-        // const myTimeout = setTimeout(()=>{hydraulic1.parcheDOM[1].classList.add("d-none")}), hydraulic1.tiempo.fade1 + tiempoPrevio)
         setTimeout(function() {
             hydraulic1.parcheDOM[1].classList.add("d-none")
         },hydraulic1.tiempo.fade1 + tiempoPrevio)
-        /* 
-        hydraulic1.parcheDOM[0].classList.add("d-none")
-        hydraulic1.parcheSprite[0].attr('opacity',0)
-        */
     }else{
-        //habilitar boton reload
         hydraulic1.reloadButton.classList.remove("d-none")
         setTimeout(function() {
-            //mostrar texto3
-            // console.log('texto 3')
             hydraulic1.text3.classList.remove("d-none")
         },hydraulic1.tiempo.masa + hydraulic1.tiempo.embolos)
     }
 }
 function hydraulic1_massDrag(nro,grupo){
     let idElement = mass25Id(grupo,nro)
-    // let tiempo = {masa:400,embolos:1000}
     let balancearEmbolos =()=>{
         let difY = hydraulic1.embolo[grupo].A.max - hydraulic1.embolo[grupo].A.min
         hydraulic1.embolo[grupo].A.sprite.animate(hydraulic1.tiempo.embolos,hydraulic1.tiempo.masa,'now').y(hydraulic1.embolo[grupo].A.max)
@@ -82,7 +68,6 @@ function hydraulic1_massDrag(nro,grupo){
         for(let i=0;i<hydraulic1.embolo[grupo].A.puestos.length;i++){
             iMasa = hydraulic1.embolo[grupo].A.puestos[i].nro
             hydraulic1.pesas[grupo][iMasa].sprite.animate(hydraulic1.tiempo.embolos,hydraulic1.tiempo.masa,'now').dy(difY)
-            // hydraulic1.embolo[grupo].A.sprite.animate(tiempo.embolos,tiempo.masa,'now').dy(difY)
         }
     }
     let presenteEnPila =(evaluado)=>{
@@ -111,25 +96,21 @@ function hydraulic1_massDrag(nro,grupo){
             }
             return {disponible:disponible,ocupados:ocupados}
         }
-        // console.log(idElement+' '+grupo+' x:'+x+' y:'+y)
         if(conditionDrag()){
             let onSyrnge = isPointInSVGShape(hydraulic1.embolo[grupo].A.pseudo,x, y)
             let coord
             let vacante = laVacante()
             if(onSyrnge && vacante.disponible >= 0){
                 coord = {x:hydraulic1.embolo[grupo].A.xPuesto,y:hydraulic1.embolo[grupo].A.puestos[vacante.disponible].y}
-                // hydraulic1.embolo[grupo].A.puestos[i].idMasa = idElement
                 hydraulic1.embolo[grupo].A.puestos[vacante.disponible].nro = nro
                 vacante.ocupados++
                 cambiarMasa(hydraulic1.pesas[grupo][nro].dom,1)
                 if(vacante.ocupados >= hydraulic1.embolo[grupo].A.puestos.length){
                     inhabilitarRezagados()
-                    // hydraulic1.habilitado[grupo] = false
                     balancearEmbolos()
                     siguienteEtapa(grupo)
                 }
             }else{
-                // console.log(x+' '+y)
                 coord = hydraulic1.pesas[grupo][nro].origen
             }
             hydraulic1.pesas[grupo][nro].sprite.animate(hydraulic1.tiempo.masa,0,'now').move(coord.x,coord.y)
@@ -159,7 +140,6 @@ for(let j=0;j<2;j++){
 }
 
 function cambiarMasa(element,status){
-    //status 0 act_habilitado, 1 act_semihabilitado, 2 act_inhabilitado
     switch(status){
         case 0:
             element.classList.add("act_habilitado") 
@@ -196,8 +176,6 @@ function reset_masas(){
 
             hydraulic1.pesas[j][derecha].origen = {x:iniciales[j].x + separacion + size.width,y:iniciales[j].y+ajusteY}
             objDer.sprite.move(iniciales[j].x + separacion + size.width,iniciales[j].y+ajusteY)
-            // objIzq.dom.classList.add("cu_pointer")
-            // objIzq.sprite.attr('opacity',1)
             statusMasa = j==0?0:2
             cambiarMasa(objIzq.dom,statusMasa)
             cambiarMasa(objDer.dom,statusMasa)

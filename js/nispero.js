@@ -61,20 +61,13 @@ const makeItDraggable = (idElement) => {
 }
 const drag_grid_and_box = (e,limits,gridSize,callback,conditionDrag) => {
     const { handler, box } = e.detail
-    // console.log(handler)
-    // let xActual = handler.x()
-    // let yActual = handler.y()
     e.preventDefault()
     let { x, y } = box
     if(gridSize){
-        // x = box.x - (box.x % gridSize)
-        // y = box.y - (box.y % gridSize)
         x = x - (x % gridSize)
         y = y - (y % gridSize)
     }
     let adjusted = correctXY(x,y,box.x2,box.y2,box.w,box.h,limits)
-    // let dx = xActual - adjusted.x
-    // let dy = yActual - adjusted.y
     if(conditionDrag){
         if(conditionDrag(adjusted.x , adjusted.y)){
             if(callback){
@@ -84,12 +77,10 @@ const drag_grid_and_box = (e,limits,gridSize,callback,conditionDrag) => {
         }
     }else{
         if(callback){
-            // callback(adjusted.x , adjusted.y, dx, dy)
             callback(adjusted.x , adjusted.y)
         }
         handler.move(adjusted.x , adjusted.y)
     }
-    // handler.move(box.x - (box.x % gridSize), box.y - (box.y % gridSize))
 }
 const toDragXY = (idElement,limits,gridSize,callbackOnDrag,callbackOnStart,callbackOnEnd,conditionDrag) => {
     let theElement = makeItDraggable(idElement)
@@ -99,18 +90,8 @@ const toDragXY = (idElement,limits,gridSize,callbackOnDrag,callbackOnStart,callb
         }
     })
     theElement.on('dragmove.namespace', (e) => {
-        // drag_grid_box(e,limits,gridSize)
         drag_grid_and_box(e,limits,gridSize,callbackOnDrag,conditionDrag)
-        // if(conditionDrag){
-        //     if(conditionDrag()){
-        //         console.log('aprobado')
-        //     }else{
-        //         console.log('negado')
-        //     }
-        // }else{
-        //     console.log('no existe condicion')
-        //     drag_grid_and_box(e,limits,gridSize,callbackOnDrag)
-        // }
+
     })
     theElement.on('dragend', (e) => {
         if(callbackOnEnd){
@@ -123,7 +104,6 @@ const toDragXY = (idElement,limits,gridSize,callbackOnDrag,callbackOnStart,callb
     return theElement
 }
 const drag_x_grid_and_box = (e,limits,gridSize,callback) => {
-    //limits={x,x2,y}
     const { handler, box } = e.detail
     e.preventDefault()
     let { x, y } = box
@@ -140,7 +120,6 @@ const drag_x_grid_and_box = (e,limits,gridSize,callback) => {
 const toDragX = (idElement,limits,gridSize,callback) => {
     let theElement = makeItDraggable(idElement)
     theElement.on('dragmove.namespace', (e) => {
-        // drag_grid_box(e,limits,gridSize)
         drag_x_grid_and_box(e,limits,gridSize,callback)
     })
     return theElement
@@ -161,7 +140,6 @@ const drag_y_grid_and_box = (e,limits,gridSize,callback,conditionDrag) => {
         }
     }else{
         if(callback){
-            // callback(adjusted.x , adjusted.y, dx, dy)
             callback(yy)
         }
         handler.move(limits.x, yy)

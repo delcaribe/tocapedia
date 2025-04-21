@@ -1,8 +1,3 @@
-// const pressure1_stage = document.getElementById('act_fluids_2_pressure_1')
-// const pressure1_size = getSVGStageSize(pressure1_stage)
-// const pressure1_limits = new SVG.Box(0, 0, pressure1_size.width, pressure1_size.height)
-// const pressure1_dragZone = {x:0,y:30,x2:370,y2:340}
-
 var pressure1 = {
     reloadButton:document.getElementById('fluids_2_pressure_1_reload'),
     whiteWall:SVG('#pressure_1_paredBlanca'),
@@ -44,7 +39,6 @@ function pressure1_change(start){
 function start_pressure1(){
     pressure1_change(true)      
 }
-// 2
 
 var pressure2 = {
     reloadButton:document.getElementById('fluids_2_pressure_2_reload'),
@@ -54,12 +48,10 @@ var pressure2 = {
     pseudoWrench:document.getElementById('pressure_2_pseudoWrench'),
     patchChorros:SVG('#pressure_2_patchChorros'),
     patchWater:SVG('#pressure_2_patchWater'),
-    // chorros:[SVG('#pressure_2_chorro1'),SVG('#pressure_2_chorro2'),SVG('#pressure_2_chorro3')],
     chorros:[document.getElementById('pressure_2_chorro1'),document.getElementById('pressure_2_chorro2'),document.getElementById('pressure_2_chorro3')],
     chorroActual:0,
     chorroFrameActual:0,
-    status:0,//0 en espera, 1 llenando, 2 lleno
-
+    status:0
 }
 pressure2.reloadButton.addEventListener("click", function(){
     start_pressure2()
@@ -145,13 +137,3 @@ function openWrench(){
 pressure2.pseudoWrench.addEventListener("click", function(){
     if(pressure2.status == 0){openWrench()}    
 })
-/*
-myInterval = setInterval(myTimer, 1000);
-
-function myTimer() {
-  const date = new Date();
-  document.getElementById("demo").innerHTML = date.toLocaleTimeString();
-}
-
-clearInterval(myInterval)
-*/
