@@ -1,3 +1,17 @@
+function closerExtreme(minValue,higherValue,actualValue,smallerExtreme) {
+    let resultado = smallerExtreme
+    let distInf = actualValue - minValue
+    let distSup = higherValue - actualValue
+    if(distSup < distInf){resultado = smallerExtreme + 1}
+    return resultado
+}
+function equation_rect_slope(point,b,x) {
+    return ((point.y-b)*x/point.x)+b
+}
+function equation_rect_twoPoints(point1,point2,x) {
+    let dP = (point2.y-point1.y)/(point2.x-point1.x)
+    return dP*(x-point1.x)+point1.y
+}
 function getSVGStageSize(svgElement) {
     if (!svgElement) {return null} // Or throw an error, depending on your needs
     const viewBox = svgElement.getAttribute('viewBox')
@@ -32,118 +46,175 @@ function getSVGStageSize(svgElement) {
     }
 
 }
-
-const drag_grid = (e,resolucion) => {
-    // let resolucion = 10
-    const { handler, box } = e.detail
-    e.preventDefault()
-    let x = box.x - (box.x % resolucion)
-    let y = box.y - (box.y % resolucion)
-    // handler.move(box.x - (box.x % resolucion), box.y - (box.y % resolucion))
-    handler.move(x,y)
-}
-const corregirUna = (actual,actual2,min,max,dimension) => {
+const correctOne = (actual,actual2,min,max,dimension) => {
     if (actual < min) {actual = min}
     if (actual2 > max) {actual = max - dimension}
     return actual
 }
-const corregirXY_bkp = (x,y,x2,y2,w,h,limites) => {
-    if (x < limites.x) {x = limites.x}
-    if (x2 > limites.x2) {x = limites.x2 - w}
-    if (y < limites.y) {y = limites.y}
-    if (y2 > limites.y2) {y = limites.y2 - h}
-    return {x:x,y:y}
+const correctXY = (x,y,x2,y2,w,h,limits) => {
+    return {x:correctOne(x,x2,limits.x,limits.x2,w),y:correctOne(y,y2,limits.y,limits.y2,h)}
 }
-const corregirXY = (x,y,x2,y2,w,h,limites) => {
-    // if (x < limites.x) {x = limites.x}
-    // if (x2 > limites.x2) {x = limites.x2 - w}
-    // if (y < limites.y) {y = limites.y}
-    // if (y2 > limites.y2) {y = limites.y2 - h}
-    return {x:corregirUna(x,x2,limites.x,limites.x2,w),y:corregirUna(y,y2,limites.y,limites.y2,h)}
+const makeItDraggable = (idElement) => {
+    let theElement = SVG('#'+idElement)
+    theElement.draggable()
+    return theElement
 }
-const drag_grid_box = (e,resolucion,limites) => {
+const drag_grid_and_box = (e,limits,gridSize,callback,conditionDrag) => {
     const { handler, box } = e.detail
-    e.preventDefault()
-    let x = box.x - (box.x % resolucion)
-    let y = box.y - (box.y % resolucion)
-    let corregido = corregirXY(x,y,box.x2,box.y2,box.w,box.h,limites)
-    handler.move(corregido.x, corregido.y)
-}
-const drag_box = (e,limites) => {
-    // console.log(e.detail)
-    const { handler, box } = e.detail
+    // console.log(handler)
+    // let xActual = handler.x()
+    // let yActual = handler.y()
     e.preventDefault()
     let { x, y } = box
-    let corregido = corregirXY(x,y,box.x2,box.y2,box.w,box.h,limites)
-    handler.move(corregido.x , corregido.y)
-}
-const drag_h = (e,limites) => {
-    //limites={x,x2,y}
-    // console.log(e.detail)
-    const { handler, box } = e.detail
-    e.preventDefault()
-    let { x, y } = box
-    // let corregido = corregirXY(x,y,box.x2,box.y2,box.w,box.h,limites)
-    handler.move(corregirUna(x,box.x2,limites.x,limites.x2,box.w) , limites.y)
-}
-const drag_h_grid = (e,limites,resolucion) => {
-    //limites={x,x2,y}
-    const { handler, box } = e.detail
-    e.preventDefault()
-    let { x, y } = box
-    // let corregido = corregirXY(x,y,box.x2,box.y2,box.w,box.h,limites)
-    let xc = corregirUna(x,box.x2,limites.x,limites.x2,box.w)
-    let xd = xc - (xc % resolucion)
-    handler.move(xd , limites.y)
-}
-const drag_v = (e,limites) => {
-    //limites={y,y2,x}
-    const { handler, box } = e.detail
-    e.preventDefault()
-    let { x, y } = box
-    // let corregido = corregirXY(x,y,box.x2,box.y2,box.w,box.h,limites)
-    handler.move(limites.x,corregirUna(y,box.y2,limites.y,limites.y2,box.h))
-}
-const drag_v_grid = (e,limites,resolucion) => {
-    const { handler, box } = e.detail
-    e.preventDefault()
-    let { x, y } = box
-    // let corregido = corregirXY(x,y,box.x2,box.y2,box.w,box.h,limites)
-    let yc = corregirUna(y,box.y2,limites.y,limites.y2,box.h)
-    let yd = yc - (yc % resolucion)
-    handler.move(limites.x,yd)
-}
-const variable_dePosicion = (posicion,coordInicial,desplazamiento) => {
-    let resultado = (posicion-coordInicial)/desplazamiento
-    return resultado
-    //Math.round()
-}
-
-function losPuntosDeCurva(idCurva,cantidadPuntos) {
-    let laCurva = document.getElementById(idCurva)
-    let longitud = laCurva.getTotalLength()
-    let paso = longitud / (cantidadPuntos - 1)
-    let puntos = []
-    let distanciaActual = 0
-    let elPunto
-    for (let i=0;i<cantidadPuntos;i++){
-        distanciaActual = i*paso
-        elPunto = laCurva.getPointAtLength(distanciaActual)
-        puntos.push(elPunto)
+    if(gridSize){
+        // x = box.x - (box.x % gridSize)
+        // y = box.y - (box.y % gridSize)
+        x = x - (x % gridSize)
+        y = y - (y % gridSize)
     }
-    return puntos
+    let adjusted = correctXY(x,y,box.x2,box.y2,box.w,box.h,limits)
+    // let dx = xActual - adjusted.x
+    // let dy = yActual - adjusted.y
+    if(conditionDrag){
+        if(conditionDrag(adjusted.x , adjusted.y)){
+            if(callback){
+                callback(adjusted.x , adjusted.y)
+            }
+            handler.move(adjusted.x , adjusted.y)
+        }
+    }else{
+        if(callback){
+            // callback(adjusted.x , adjusted.y, dx, dy)
+            callback(adjusted.x , adjusted.y)
+        }
+        handler.move(adjusted.x , adjusted.y)
+    }
+    // handler.move(box.x - (box.x % gridSize), box.y - (box.y % gridSize))
 }
-function calcularDistancia(punto1, punto2) {
-    const deltaX = punto2.x - punto1.x
-    const deltaY = punto2.y - punto1.y
-    const distancia = Math.sqrt(deltaX * deltaX + deltaY * deltaY)  
-    return distancia
-  }
-function puntoMasCercano(losPuntos,especimen) {
+const toDragXY = (idElement,limits,gridSize,callbackOnDrag,callbackOnStart,callbackOnEnd,conditionDrag) => {
+    let theElement = makeItDraggable(idElement)
+    theElement.on('dragstart.namespace', function (event) {
+        if(callbackOnStart){
+            callbackOnStart()
+        }
+    })
+    theElement.on('dragmove.namespace', (e) => {
+        // drag_grid_box(e,limits,gridSize)
+        drag_grid_and_box(e,limits,gridSize,callbackOnDrag,conditionDrag)
+        // if(conditionDrag){
+        //     if(conditionDrag()){
+        //         console.log('aprobado')
+        //     }else{
+        //         console.log('negado')
+        //     }
+        // }else{
+        //     console.log('no existe condicion')
+        //     drag_grid_and_box(e,limits,gridSize,callbackOnDrag)
+        // }
+    })
+    theElement.on('dragend', (e) => {
+        if(callbackOnEnd){
+            const { handler, box } = e.detail
+            e.preventDefault()
+            let { x, y } = box
+            callbackOnEnd(x,y)
+        }        
+    })
+    return theElement
+}
+const drag_x_grid_and_box = (e,limits,gridSize,callback) => {
+    //limits={x,x2,y}
+    const { handler, box } = e.detail
+    e.preventDefault()
+    let { x, y } = box
+
+    let xx = correctOne(x,box.x2,limits.x,limits.x2,box.w)
+    if(gridSize){
+        xx = xx - (xx % gridSize)
+    }
+    if(callback){
+        callback(xx)
+    }
+    handler.move(xx , limits.y)
+}
+const toDragX = (idElement,limits,gridSize,callback) => {
+    let theElement = makeItDraggable(idElement)
+    theElement.on('dragmove.namespace', (e) => {
+        // drag_grid_box(e,limits,gridSize)
+        drag_x_grid_and_box(e,limits,gridSize,callback)
+    })
+    return theElement
+}
+const drag_y_grid_and_box = (e,limits,gridSize,callback,conditionDrag) => {
+    const { handler, box } = e.detail
+    e.preventDefault()
+    let { x, y } = box
+    let yy = correctOne(y,box.y2,limits.y,limits.y2,box.h)
+    if(gridSize){yy = yy - (yy % gridSize)}
+
+    if(conditionDrag){
+        if(conditionDrag(yy)){
+            if(callback){
+                callback(yy)
+            }
+            handler.move(limits.x, yy)
+        }
+    }else{
+        if(callback){
+            // callback(adjusted.x , adjusted.y, dx, dy)
+            callback(yy)
+        }
+        handler.move(limits.x, yy)
+    }
+    handler.move(limits.x, yy)
+}
+const toDragY = (idElement,limits,gridSize,callbackOnDrag,callbackOnStart,callbackOnEnd,conditionDrag) => {
+    let theElement = makeItDraggable(idElement)
+    theElement.on('dragstart.namespace', function (event) {
+        if(callbackOnStart){
+            callbackOnStart()
+        }
+    })
+    theElement.on('dragmove.namespace', (e) => {
+        drag_y_grid_and_box(e,limits,gridSize,callbackOnDrag,conditionDrag)
+    })
+    theElement.on('dragend', (e) => {
+        if(callbackOnEnd){
+            const { handler, box } = e.detail
+            e.preventDefault()
+            let { x, y } = box
+            callbackOnEnd(y)
+        }        
+    })
+    return theElement
+}
+const varFromPosition = (position,initCoord,maxPosition) => {
+    return (position-initCoord)/maxPosition
+}
+function curvePoints(idCurve,numberPoints) {
+    let curve = document.getElementById(idCurve)
+    let long = curve.getTotalLength()
+    let step = long / (numberPoints - 1)
+    let result = []
+    let actualDistance = 0
+    let thePoint
+    for (let i=0;i<numberPoints;i++){
+        actualDistance = i*step
+        thePoint = curve.getPointAtLength(actualDistance)
+        result.push(thePoint)
+    }
+    return result
+}
+function distance(point1, point2) {
+    const dX = point2.x - point1.x
+    const dY = point2.y - point1.y
+    return Math.sqrt(dX * dX + dY * dY) 
+}
+function closestPoint(points,specimen) {
     let resultado = 0
     let distancias = []
-    for (let i=0;i<losPuntos.length;i++){
-        distancias.push(calcularDistancia(losPuntos[i],especimen))
+    for (let i=0;i<points.length;i++){
+        distancias.push(distance(points[i],specimen))
     }
     let indiceMenor = 0
     let laMenor = distancias[indiceMenor]
@@ -155,23 +226,53 @@ function puntoMasCercano(losPuntos,especimen) {
     }
     return indiceMenor 
 }
-const drag_path = (e,losPuntos,correccion) => {
-    // let resolucion = 10
+const drag_path = (e,points,adjustment,callback) => {
+    const { handler, box } = e.detail
+    e.preventDefault()
+    let closestIndex = closestPoint(points,box)
+    let crrx = 0,crry = 0
+    if(adjustment){
+        crrx = adjustment.x
+        crry = adjustment.y
+    }
+    let x = points[closestIndex].x-crrx
+    let y = points[closestIndex].y-crry
+    if(callback){callback(x,y)}
+    handler.move(x,y)
+}
+const toDragPath = (idElement,points,adjustment,callback) => {
+    let theElement = makeItDraggable(idElement)
+    theElement.on('dragmove.namespace', (e) => {
+        drag_path(e,points,adjustment,callback)
+    })
+    return theElement
+}
+
+const drag_shape = (e,theShape,adjustment,callback) => {
     const { handler, box } = e.detail
     e.preventDefault()
     let { x, y } = box
-    let indiceCercano = puntoMasCercano(losPuntos,box)
-    let crrx = 0,crry = 0
-    if(correccion){
-        crrx = correccion.x
-        crry = correccion.y
-    }
-    // handler.move(box.x - (box.x % resolucion), box.y - (box.y % resolucion))
-    handler.move(losPuntos[indiceCercano].x-crrx,losPuntos[indiceCercano].y-crry)
+    if(isPointInSVGShape(theShape,x, y) && isPointInSVGShape(theShape,box.x2, box.y2)){
+        let crrx = 0,crry = 0
+        if(adjustment){
+            crrx = adjustment.x
+            crry = adjustment.y
+        }
+        if(callback){callback(x-crrx,y-crry)}
+        handler.move(x-crrx,y-crry)
+    }    
 }
-function puntoDentroDeForma(forma, puntoX, puntoY) {
-    const punto = forma.ownerSVGElement.createSVGPoint();
-    punto.x = puntoX;
-    punto.y = puntoY;
-    return forma.isPointInFill(punto);
+const toDragInShape = (idElement,theShape,adjustment,callback) => {
+    let theElement = makeItDraggable(idElement)
+    theElement.on('dragmove.namespace', (e) => {
+        drag_shape(e,theShape,adjustment,callback)
+    })
+    return theElement
+}
+function isPointInSVGShape(shape, x, y) {
+    const svg = shape.ownerSVGElement
+    const pt = svg.createSVGPoint();
+    pt.x = x;
+    pt.y = y;
+    return shape.isPointInFill(pt) || shape.isPointInStroke(pt);
 }

@@ -1,9 +1,13 @@
 :root {
   --azulclaro:#0fa7e6;
+  --azulMasClaro:#b8e8fa;
+  --naranja:#aa4400;
+  --amarilloClaro:#fdfac6;
+  --azulOscuro:#000611;
 }
 
 @font-face {
-  font-family: "ltrenovate";
+  font-family: "ltrenovatebold";
   font-style: bold;
   font-weight: bold;
   font-display: block;
@@ -32,11 +36,25 @@ body {
   fill: #ffffff;
   font-family: "ltrenovate", sans-serif;
   text-anchor: "start";
-  font-size: 21px;
+  font-size: 30px;
   dominant-baseline: auto;
 }
 
+#subjectConcept {
+  font-size: 1rem;
+}
+
 #containerLogo {
+  padding-right: 0px;
+}
+
+#langChanger {
+  width: 44px;
+  height: auto;
+  cursor: pointer;
+}
+
+#containerLogox {
   background-image: url("data:image/svg+xml;charset=UTF-8,<svg width='25' height='25' version='1.1' viewBox='0 0 25 25' xmlns='http://www.w3.org/2000/svg'><rect x='0' y='0' width='12.5' height='12.5' ry='0' fill='%232fb8f1'/><rect x='12.5' y='0' width='12.5' height='12.5' ry='0' fill='%2350c3f3'/><rect x='12.5' y='12.5' width='12.5' height='12.5' ry='0' fill='%232fb8f1'/></svg>");
   background-repeat: no-repeat;
   background-position: top right;
@@ -44,16 +62,16 @@ body {
 }
 
 #elMenu {
-  font-size: 0.9rem;
+  font-size: 1rem;
 }
 
 #contenido {
-  background-color: #00112b;
+  background-color: var(--azulOscuro);
   min-height: 400px;
 }
 
 .minAncho {
-  min-width: 500px;
+  min-width: 600px;
 }
 
 .maxAncho {
@@ -64,12 +82,16 @@ body {
   color: #ff7c24;
 }
 
-.concepto {
+.amarilloLight {
+  color: #F7EDB8;
+}
+
+.concept {
   color: #bf9240;
   cursor: pointer;
 }
 
-.concepto:hover {
+.concept:hover {
   color: #dec16c;
 }
 
@@ -81,7 +103,62 @@ body {
   fill: #022549;
 }
 
+.act_separate {
+  stroke: #00112b;
+  stroke-width: 2.5px;
+}
+
+.act_color1 {
+  fill: #c6c6c6;
+}
+
+.act_color2 {
+  fill: #ff9955;
+}
+
+.act_color3 {
+  fill: #87cdde;
+}
+
+.act_color4 {
+  fill: #6B808F;
+}
+
+.act_color5 {
+  fill: #F7EDB8;
+}
+
+.act_texto {
+  font-size: 14px;
+}
+
+.act_texto2 {
+  font-size: 13px;
+}
+
+.act_texto3 {
+  font-size: 16px;
+}
+
+.act_resaltado {
+  font-size: 16px;
+  fill: #ffefca;
+}
+
+.act_exponente {
+  font-size: 10px;
+  baseline-shift: super;
+}
+
+.act_azulMasClaro {
+  fill: var(--azulMasClaro);
+}
+
 .act_azulclaro {
+  fill: var(--azulclaro);
+}
+
+.act_naranja {
   fill: var(--azulclaro);
 }
 
@@ -89,6 +166,26 @@ body {
   background-image: url("data:image/svg+xml;charset=UTF-8,<svg version='1.1' viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'><rect width='30' height='30' fill='%230fa7e6'/><path transform='translate(-101 -145)' d='m116 150c-2.48 0-4.96 0.931-6.85 2.79l-2.12-2.12v7.58h7.58l-2.2-2.2c2.04-1.98 5.23-1.96 7.25 0.0599 2.04 2.04 2.04 5.27 0 7.31s-5.28 2.04-7.32 0l-3.25 3.26c3.8 3.8 10 3.8 13.8 0s3.8-10 0-13.8c-1.9-1.9-4.41-2.85-6.91-2.85z' fill='white'/></svg>");
   background-repeat: no-repeat;
   background-size: 30px 30px;
+}
+
+.act_lineOver {
+  stroke: #0fa7e6;
+  stroke-width: 4.7;
+}
+
+.act_habilitado {
+  cursor: pointer;
+  opacity: 1;
+}
+
+.act_inhabilitado {
+  cursor: default;
+  opacity: 0.6;
+}
+
+.act_semihabilitado {
+  cursor: default;
+  opacity: 1;
 }
 
 .cu_pointer {
@@ -117,15 +214,33 @@ body {
 
 @media only screen and (max-width: 768px) {
   #logoAndSubject {
-    max-width: 320px;
+    max-width: 350px;
   }
   #containerLogo {
     background-size: 20px 20px;
   }
-  #elMenu {
+  #subjectTitle {
+    font-size: 20px;
+  }
+  #subjectConcept {
     font-size: 0.8rem;
+  }
+  #elMenu {
+    font-size: 0.9rem;
   }
   body {
     font-size: 0.8rem;
+  }
+  #langChanger {
+    width: 30px;
+  }
+  .act_texto {
+    font-size: 16px;
+  }
+  .act_texto2 {
+    font-size: 15px;
+  }
+  .act_texto3 {
+    font-size: 17px;
   }
 }
